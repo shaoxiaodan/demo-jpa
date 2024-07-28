@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,7 +38,8 @@ public class Clazz {
 	
 	// mappedBy 创建一个一对多的映射关系，值为对方外键对象中的属性名称
 	// 默认情况下，开启了懒加载模式：fetch = FetchType.LAZY
-	@OneToMany(mappedBy = "clazz",fetch = FetchType.EAGER) // EAGER为立即加载模式，非懒加载
+	// cascade = CascadeType.ALL，级联删除
+	@OneToMany(mappedBy = "clazz",fetch = FetchType.EAGER, cascade = CascadeType.ALL) // EAGER为立即加载模式，非懒加载
 	private List<Student> list; // 一个班级里面有多个学生
 
 }
