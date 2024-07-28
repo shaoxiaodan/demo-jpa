@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.domain.Clazz;
 import com.example.demo.domain.Student;
+import com.example.demo.service.ClazzService;
 
 @SpringBootTest
 public class ClazzTest {
@@ -19,6 +20,9 @@ public class ClazzTest {
 	@Autowired
 	private StudentDao studentDao;
 
+	@Autowired
+	private ClazzService clazzService;
+	
 	/**
 	 * 添加操作
 	 * 添加班级信息 
@@ -160,6 +164,11 @@ public class ClazzTest {
 		
 		// 5，保存班级信息
 		clazzDao.save(clazz);
+	}
+	
+	@Test
+	void testDeleteClazzWithStu() {
+		clazzService.deleteClazzWithStu();
 	}
 	
 }
