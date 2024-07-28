@@ -168,10 +168,11 @@ public class EmpTest {
 		List<Project> list = projectDao.findAll();
 		for(Project pro : list) {
 			System.out.println(pro.getId() + "\t" + pro.getPName()); // 懒加载
-			System.out.println("*** emps=" + pro.toString());
+//			System.out.println("*** emps=" + pro.toString());
 			
 			
-//			List<Emp> emps = pro.getEmps(); //需要使用Emp的员工信息
+			//需要使用Emp的员工信息，但如果获取的数据中，集合有空值，数据返回有问题，
+//			List<Emp> emps = pro.getEmps(); 
 //			if(emps != null && emps.size() >0) {
 //				for(Emp emp : emps) {
 //					System.out.println(emp.getId() + "\t" + emp.getEName());
@@ -180,6 +181,47 @@ public class EmpTest {
 		}
 	}
 	
+	/**
+	 * 查询员工信息，但只能查询员工的信息，无法获取得到员工所关联参与的项目信息
+	 */
+	@Test
+	void testFindEmp() {
+		List<Emp> emps = empDao.findAll();
+		for(Emp emp : emps) {
+			System.out.println(emp.getId() + "\t" + emp.getEName());
+		}
+	}
 	
+	/**
+	 * 删除操作
+	 * 删除项目信息，关联删除员工信息(中间表的关联数据一起删除) —— 可以删除成功
+	 * 删除员工信息，关联删除员工所参与的项目信息—— 不能成功删除
+	 */
+	@Test
+	void testDeleteProject() {
+		// 查询一个project
+		Project pro = projectDao.getOne(15);
+		
+		// 删除project
+		projectDao.delete(pro);
+	}
+	
+	/**
+	 * 删除员工信息，该员工参与了项目开发
+	 * 但删除操作不成功，原因如下：
+	 * 1，员工emp被项目（中间表emps_pros）所引用
+	 * 2，员工emp没有对外键的维护权利（被维护方）
+	 * 
+	 * 所有，删除员工信息，只能成功删除未被项目引用的员工数据
+	 * 
+	 */
+	@Test
+	void testDeleteEmp() {
+		// 查询一个emp
+		Emp emp = empDao.getOne(18);
+		
+		// 删除emp
+		empDao.delete(emp);
+	}
 	
 }
