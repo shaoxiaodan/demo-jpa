@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,4 +36,7 @@ public class Boy {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "gid", unique = true)
 	private Girl girl;
+	
+//	@Version
+//	private Long version; // 乐观锁
 }

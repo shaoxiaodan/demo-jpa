@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Boy;
 import com.example.demo.domain.Girl;
@@ -167,6 +169,21 @@ public class BoyTest {
 	@Test
 	void testDeleteBoy() {
 		boyDao.deleteById(1);
+	}
+	
+	/**
+	 * 更新boy信息
+	 * 添加-事务注解
+	 * 添加-自动提交注解
+	 */
+	@Test
+	void testUpdateBoyWithTran() {
+		// 查询boy信息
+		Optional<Boy> opt = boyDao.findById(5);
+		Boy boy = opt.get();
+		boy.setBName("Google.com");
+		
+		boyDao.save(boy);
 	}
 	
 }
