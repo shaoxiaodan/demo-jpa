@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,7 @@ public class ClazzTest {
 	}
 	
 	/**
+	 * 一对多的查询操作
 	 * 查询信息
 	 * 查询班级信息（关联查询了学生信息）
 	 * 查询学生信息
@@ -97,7 +99,7 @@ public class ClazzTest {
 	}
 	
 	/**
-	 * 删除操作
+	 * 一对多的删除操作
 	 * 删除班级信息：主键表（主键字段可能被引用）
 	 * 删除学生信息：外键表（子表）
 	 */
@@ -121,6 +123,42 @@ public class ClazzTest {
 		// 删除子表数据，无须要考虑主表的外键值cid，可以直接删除
 		// 但要保证主表的fetch策略为懒加载模式，否则会删除不成功
 		studentDao.deleteById(2);
+	}
+	
+	/**
+	 * 一对多的添加操作
+	 * 添加班级信息的同时，也添加学生信息
+	 */
+	@Test
+	void testAddClazzAndStudent() {
+		// 1，创建班级信息
+		Clazz clazz = Clazz.builder().cName("NAU计算机硕士学历班").build();
+		
+		// 2，创建学生信息
+		Student stu1 = Student.builder().sName("stu7").build();
+		Student stu2 = Student.builder().sName("stu8").build();
+		Student stu3 = Student.builder().sName("stu9").build();
+		Student stu4 = Student.builder().sName("stu10").build();
+		
+		// 2-1，将学生信息装入到list集合中
+		List<Student> studentList = new ArrayList<Student>();
+		studentList.add(stu1);
+		studentList.add(stu2);
+		studentList.add(stu3);
+		studentList.add(stu4);
+		
+		// 3，创建班级与学生的关联关系
+		clazz.setList(studentList);
+		
+		// 4，创建学生与班级的关联关系（双向关联）
+		// 如果不创建双向关联，保存成功，但子表不会有主表cid的外键值（外键没有得到维护，值为空）
+		stu1.setClazz(clazz);
+		stu2.setClazz(clazz);
+		stu3.setClazz(clazz);
+		stu4.setClazz(clazz);
+		
+		// 5，保存班级信息
+		clazzDao.save(clazz);
 	}
 	
 }
