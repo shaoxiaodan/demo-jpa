@@ -139,7 +139,34 @@ public class BoyTest {
 		System.out.println("***** boy=" +boy.getBId() + "\t" + boy.getBName() + "\t" + boy.getGirl().getGName());
 	}
 	
+	/**
+	 * 删除操作
+	 * 删除girl信息
+	 * 删除没有被boy引用的girl，可以成功删除
+	 */
+	@Test
+	void testDeleteGirl() {
+		girlDao.deleteById(2); //该girl没有被引用，可以成功删除
+	}
 	
+	/**
+	 * 删除girl信息
+	 * 但girl被boy所引用，不能被删除
+	 */
+	@Test
+	void testDeleteGirl2() {
+		girlDao.deleteById(5); //该girl被引用，删除失败
+	}
 	
+	/**
+	 * 删除boy信息，可以成功删除
+	 * 
+	 * 注意：
+	 * boy的实体类，必须要配置cascade的级联注解，否则只会删除boy自己数据，而不会删除关联数据
+	 */
+	@Test
+	void testDeleteBoy() {
+		boyDao.deleteById(1);
+	}
 	
 }
