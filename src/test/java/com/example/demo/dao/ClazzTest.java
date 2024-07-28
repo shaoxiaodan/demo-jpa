@@ -96,4 +96,31 @@ public class ClazzTest {
 		}
 	}
 	
+	/**
+	 * 删除操作
+	 * 删除班级信息：主键表（主键字段可能被引用）
+	 * 删除学生信息：外键表（子表）
+	 */
+	@Test
+	void testDeleteClazz() {
+		// 删除班级信息
+		// case 1：没有被引用的班级，可以正常删除
+		// case 2：有被引用的班级（外键有值），不能被删除
+//		clazzDao.deleteById(1);
+		
+		// 解决方法1，级联删除（实体类配置cascade注解）
+		clazzDao.deleteById(2);
+		
+		// 解决方法2，先断开主外键连接，再去删除主表当中的数据
+		// 步骤1：断开主外键连接，update语句更新子表中的外键值
+		// 步骤2：执行删除操作，删除主表中的数据
+	}
+	
+	@Test
+	void testDeleteStudent() {
+		// 删除子表数据，无须要考虑主表的外键值cid，可以直接删除
+		// 但要保证主表的fetch策略为懒加载模式，否则会删除不成功
+		studentDao.deleteById(2);
+	}
+	
 }
