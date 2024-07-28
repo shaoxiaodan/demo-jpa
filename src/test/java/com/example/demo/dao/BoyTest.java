@@ -108,9 +108,36 @@ public class BoyTest {
 		
 		// 更新boy
 		boyDao.save(boy);
-		
 	}
 	
+	/**
+	 * 查询操作
+	 * 查询girl信息
+	 * 
+	 * 注意：
+	 * 1，getone方法已经过期，也不在被推荐使用
+	 * 2，getone方法已被findById的方法所替代
+	 */
+	@Test
+	void testFindGirl() {
+		Optional<Girl> opt = girlDao.findById(5);
+		Girl girl = opt.get();
+		System.out.println("***** girl=" +girl.getGId() + "\t" + girl.getGName());
+	}
+	
+	/**
+	 * 查询boy信息，关联查询girl的信息
+	 * 结果：
+	 * 1，查询boy信息，可以关联查询初girl的信息
+	 * 2，因为boy是外键的维护方，而girl不能关联查询boy的信息
+	 * 3，查询boy的关联信息，是属于【立即加载】模式
+	 */
+	@Test
+	void testFindBoy() {
+		Optional<Boy> opt1 = boyDao.findById(1);
+		Boy boy = opt1.get();
+		System.out.println("***** boy=" +boy.getBId() + "\t" + boy.getBName() + "\t" + boy.getGirl().getGName());
+	}
 	
 	
 	
