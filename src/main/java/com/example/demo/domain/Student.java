@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,9 @@ public class Student {
 
 	@Column
 	private String sName;
+
+	@Version
+	private int version; // 乐观锁
 
 	@ManyToOne
 	@JoinColumn(name = "cid") // 增加（外键）列，如果不指定name属性，则为clazz
