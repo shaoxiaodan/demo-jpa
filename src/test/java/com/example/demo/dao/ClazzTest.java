@@ -152,6 +152,7 @@ public class ClazzTest {
 		
 		// 4，创建学生与班级的关联关系（双向关联）
 		// 如果不创建双向关联，保存成功，但子表不会有主表cid的外键值（外键没有得到维护，值为空）
+		// 子表来负责维护外键
 		stu1.setClazz(clazz);
 		stu2.setClazz(clazz);
 		stu3.setClazz(clazz);
