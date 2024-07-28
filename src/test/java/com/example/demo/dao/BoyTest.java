@@ -1,5 +1,7 @@
 package com.example.demo.dao;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,4 +69,50 @@ public class BoyTest {
 		
 		boyDao.save(boy); // 保存boy
 	}
+	
+	/**
+	 * 更新操作
+	 * 更新girl信息
+	 */
+	@Test
+	void testUpdateGirl(){
+		Girl girl = Girl.builder().gId(1).gName("Lily'Shen").build();
+		girlDao.save(girl);
+	}
+	
+	/**
+	 * 更新操作
+	 * 更新boy信息
+	 * 方法1：更新成功，但不合理，应该通过查询来获取对象信息
+	 * 方法2：更新失败，getOne方法过期，已无法获得查询结果
+	 * 方法3：更新成功。
+	 */
+	@Test
+	void testUpdateBoy(){
+		// 修改boy信息，重新分配girl
+//		Boy boy = Boy.builder().bId(1).build(); // 方法1：成功：但不合理，正常情况下应该是通过查询获得数据
+//		Boy boy = boyDao.getOne(1); //方法2：失败：getOne查询，但不能返回结果，也无法进入debug
+		Optional<Boy> opt1 = boyDao.findById(1); // 方法3：findbyid查询，可以获取查询结果
+		Boy boy = opt1.get();
+		System.out.println("***** boy=" +boy.getBId() + "\t" + boy.getBName());
+
+		// 目标分配girl
+//		Girl girl = Girl.builder().gId(3).build();
+//		Girl girl = girlDao.getOne(5);
+		Optional<Girl> opt2 = girlDao.findById(5); // 同上，findbyid查询，可以获取查询结果
+		Girl girl = opt2.get();
+		System.out.println("***** girl=" +girl.getGId() + "\t" + girl.getGName());
+		
+		// 设置关联关系
+		boy.setGirl(girl);
+		
+		// 更新boy
+		boyDao.save(boy);
+		
+	}
+	
+	
+	
+	
+	
 }
