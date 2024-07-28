@@ -30,12 +30,6 @@ public class Student {
 	@Column
 	private String sName;
 
-	@Column
-	private int age;
-
-	@Column
-	private String description;
-
 	@ManyToOne
 	@JoinColumn(name = "cid") // 增加（外键）列，如果不指定name属性，则为clazz
 	private Clazz clazz; // 多个学生对象属于同一个班级
