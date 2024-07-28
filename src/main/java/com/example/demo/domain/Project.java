@@ -60,7 +60,7 @@ public class Project {
 	 * 			pid	= project的主键
 	 * 			1	1
 	 */
-	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@ManyToMany
 	@JoinTable(name = "emps_pros", 
 		uniqueConstraints = {@UniqueConstraint(columnNames = {"e_id", "p_id"})}, 
 		joinColumns= {@JoinColumn(name = "p_id", referencedColumnName = "id")},
